@@ -366,7 +366,9 @@ class DashboardDock(QDockWidget):
                 if self._kpi_toggles["kpi_avg"].isChecked():
                     items.append((self.tr("kpi_avg"), _fmt(sum(vals) / len(vals)), CARD_COLORS[3]))
                 if self._kpi_toggles["kpi_min"].isChecked():
-                    items.append((self.tr("kpi_min"), _fmt(min(vals)), CARD_COLORS[4]))
+                    non_zero = [v for v in vals if v != 0]
+                    min_val = min(non_zero) if non_zero else (min(vals) if vals else 0)
+                    items.append((self.tr("kpi_min"), _fmt(min_val), CARD_COLORS[4]))
                 if self._kpi_toggles["kpi_max"].isChecked():
                     items.append((self.tr("kpi_max"), _fmt(max(vals)), CARD_COLORS[5]))
         return items
