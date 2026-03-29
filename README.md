@@ -1,7 +1,15 @@
 # 📊 Layer Dashboard — QGIS Plugin
 
+[English](#english) | [Türkçe](#türkçe)
+
+---
+
+<a name="english"></a>
+## 🇬🇧 English
+
 **Layer Dashboard** is a powerful, interactive analytics dock panel for QGIS that transforms any vector layer into a live dashboard with KPI summary cards, bar/pie charts, a paginated feature table, and map-linked selection — all without leaving QGIS.
 
+### ✨ Features
 | Feature | Description |
 |---|---|
 | **KPI Summary Cards** | Total features, selected count, sum, average, min, max — toggleable on/off |
@@ -10,185 +18,85 @@
 | **Multi-Language** | English / Türkçe UI with persistent language preference |
 | **Zoom to Selection** | Click a chart slice or bar → features are selected and zoomed to on the map |
 
----
+### 📦 Installation
+1. Download the latest release `.zip` from [Releases](https://github.com/okansafak/qgisdashboardplugin/releases).
+2. In QGIS: **Plugins → Manage and Install Plugins → Install from ZIP**.
+3. Select the `.zip` file and click **Install Plugin**.
 
-## 🖥️ Screenshots
-
-> After installing the plugin, open it from **Vector → Layer Dashboard** or click the dashboard icon in the toolbar.
-
----
-
-## 📦 Installation
-
-### Option A — Install from ZIP
-
-1. Download the latest release `.zip` from [Releases](https://github.com/okansafak/qgisdashboardplugin/releases) or clone this repository.
-2. In QGIS, go to **Plugins → Manage and Install Plugins → Install from ZIP**.
-3. Select the downloaded `.zip` file and click **Install Plugin**.
-4. The plugin will appear under **Vector → Layer Dashboard** and as a toolbar icon.
-
-### Option B — Manual Installation
-
-1. Clone or download this repository:
-   ```bash
-   git clone https://github.com/okansafak/qgisdashboardplugin.git
-   ```
-2. Copy the `dynamicdashboard` folder into your QGIS plugins directory:
-   - **Windows:** `%APPDATA%\QGIS\QGIS3\profiles\default\python\plugins\`
-   - **Linux:** `~/.local/share/QGIS/QGIS3/profiles/default/python/plugins/`
-   - **macOS:** `~/Library/Application Support/QGIS/QGIS3/profiles/default/python/plugins/`
-3. Restart QGIS and enable **Layer Dashboard** in the Plugin Manager.
+### 🚀 Quick Start
+1. **Open:** Click the dashboard icon in the toolbar or **Vector → Layer Dashboard**.
+2. **Select Layer:** Choose a vector layer from the dropdown.
+3. **Fields:** Pick a **Statistics Field** (numeric) and a **Grouping Field**.
+4. **Interact:** Click charts to select/zoom on map, use search for the table.
 
 ---
 
-## 🚀 Quick Start
+<a name="türkçe"></a>
+## 🇹🇷 Türkçe
 
-1. **Open the Dashboard:** Click the dashboard icon in the toolbar, or go to **Vector → Layer Dashboard**.
-2. **Select a Layer:** Choose any loaded vector layer from the dropdown at the top of the panel.
-3. **Choose Fields:**
-   - **Statistics Field** — pick a numeric field for Sum / Average / Min / Max calculations.
-   - **Grouping Field** — pick any field to generate distribution charts.
-4. **Interact:**
-   - Click on a **bar** or **pie slice** to select matching features on the map and zoom to their extent.
-   - Use the **search box** to filter table rows across all attributes instantly.
-   - Toggle KPI cards on/off using the checkboxes under **Summary Toggles**.
+**Layer Dashboard**, herhangi bir vektör katmanını KPI özet kartları, bar/pasta grafikleri, sayfalı özellik tablosu ve harita bağlantılı seçim özellikleriyle canlı bir panoya dönüştüren güçlü ve etkileşimli bir QGIS eklentisidir.
 
----
-
-## 🌍 Multi-Language Support
-
-The plugin ships with **English** and **Türkçe** translations. The language selector is located in the top-right corner of the dashboard panel.
-
-| Behaviour | Detail |
+### ✨ Özellikler
+| Özellik | Açıklama |
 |---|---|
-| **Default language** | Turkish (`tr`) on first launch |
-| **Persistence** | Your choice is saved via `QgsSettings` and remembered across sessions |
-| **Live switching** | Changing the language instantly rebuilds the entire UI — no restart needed |
-| **Adding new languages** | Edit `utils/i18n.py` and add a new key (e.g. `"de"`) to the `LANG` dictionary |
+| **KPI Özet Kartları** | Toplam nesne, seçili sayısı, toplam, ortalama, min, maks — açılıp kapatılabilir |
+| **Bar ve Pasta Grafikleri** | Haritadan seçim etkileşimli gruplandırılmış dağılım grafikleri |
+| **Sayfalı Tablo** | Arama özellikli ve yapılandırılabilir sayfa boyutlu yüksek performanslı tablo |
+| **Çoklu Dil** | Kalıcı dil tercihi ile İngilizce / Türkçe arayüz |
+| **Seçime Yakınlaş** | Grafik dilimine veya çubuğuna tıkla → nesneler seçilir ve haritada odaklanır |
+
+### 📦 Kurulum
+1. En son sürüm `.zip` dosyasını [Releases](https://github.com/okansafak/qgisdashboardplugin/releases) sayfasından indirin.
+2. QGIS'te: **Eklentiler → Eklentileri Yönet ve Yükle → ZIP'ten Yükle**.
+3. `.zip` dosyasını seçin ve **Eklentiyi Kur** butonuna tıklayın.
+
+### 🚀 Hızlı Başlangıç
+1. **Aç:** Araç çubuğundaki pano simgesine veya **Vektör → Layer Dashboard** menüsüne tıklayın.
+2. **Katman Seç:** Açılır menüden bir vektör katmanı seçin.
+3. **Alanlar:** Bir **İstatistik Alanı** (sayısal) ve bir **Gruplama Alanı** seçin.
+4. **Etkileşim:** Haritada seçmek/odaklanmak için grafiklere tıklayın, tablo için aramayı kullanın.
 
 ---
 
-## 🏗️ Project Structure
+## 🌍 Multi-Language Support / Çoklu Dil Desteği
+
+The plugin ships with **English** and **Türkçe** translations. / Eklenti **İngilizce** ve **Türkçe** çevirileriyle birlikte gelir.
+
+| Detail / Detay | Description / Açıklama |
+|---|---|
+| **Persistence / Kalıcılık** | Sorted via `QgsSettings` / `QgsSettings` ile kaydedilir |
+| **Live switching / Anlık Geçiş** | UI updates instantly / Arayüz anında güncellenir |
+
+## 🏗️ Project Structure / Proje Yapısı
 
 ```
 dynamicdashboard/
-│
-├── __init__.py            # QGIS plugin entry point (classFactory)
-├── plugin_main.py         # Plugin lifecycle: toolbar, menu, dock management
-├── dashboard_dock.py      # Main dock widget: controls, KPI, charts, table, events
-├── metadata.txt           # QGIS plugin metadata
-├── icon.svg               # Toolbar icon
-│
-├── ui/                    # UI Components
-│   ├── __init__.py
-│   └── components.py      # KPICard, BarChart, PieChart widgets + color palettes
-│
-└── utils/                 # Utilities
-    ├── __init__.py
-    ├── i18n.py             # Translation dictionary (LANG) + Translator class
-    └── stats.py            # Statistical helpers: _nums(), _fmt(), _ok()
+├── ui/              # UI Components / Arayüz Bileşenleri
+├── utils/           # Utilities / Yardımcı Araçlar (Translation, Stats)
+├── dashboard_dock.py # Main Dock Logic / Ana Panel Mantığı
+├── plugin_main.py    # Plugin Entry / Eklenti Girişi
+└── metadata.txt      # Metadata / Üst Veri
 ```
 
-### Module Responsibilities
+---
 
-| Module | Responsibility |
-|---|---|
-| `plugin_main.py` | Registers toolbar icon and menu entry, creates/destroys the dock widget |
-| `dashboard_dock.py` | Orchestrates the full dashboard: layer selection, KPI calculation, chart data, table pagination, map selection sync |
-| `ui/components.py` | Self-contained PyQt5 widgets for KPI cards and interactive charts with hover/click events |
-| `utils/i18n.py` | Centralized translation management with QgsSettings persistence |
-| `utils/stats.py` | Pure Python statistical functions decoupled from any Qt/QGIS dependency |
+## ⚙️ Configuration / Yapılandırma
+
+### KPI Summary Cards / KPI Özet Kartları
+- **Min:** Zero values are excluded to avoid skew. / Sıfır değerler, istatistiği bozmaması için hariç tutulur.
+- **Max/Sum/Avg:** Requires numeric field. / Sayısal alan gerektirir.
+
+### Pagination / Sayfalandırma
+Supports 50, 100, 500, 1000 records per page. / Sayfa başına 50, 100, 500, 1000 kayıt destekler.
 
 ---
 
-## ⚙️ Configuration & Behaviour
-
-### KPI Summary Cards
-
-| Card | Calculation | Notes |
-|---|---|---|
-| **Total Features** | `len(features)` | All features in the current view (or selected subset) |
-| **Selected** | `len(selectedFeatureIds)` | Number of features currently selected on the map |
-| **Sum** | `sum(values)` | Requires a numeric statistics field |
-| **Average** | `sum / count` | Requires a numeric statistics field |
-| **Min** | `min(non-zero values)` | Zero values are excluded to avoid skew from empty/null geometries |
-| **Max** | `max(values)` | Requires a numeric statistics field |
-
-Each card can be individually toggled via the checkboxes in the **Summary Toggles** section.
-
-### Pagination
-
-The feature table supports configurable page sizes for handling large datasets:
-
-| Page Size | Recommended Use |
-|---|---|
-| **50** (default) | General browsing and exploration |
-| **100** | Medium datasets |
-| **500** | Large datasets with fast hardware |
-| **1000** | Maximum density view |
-
-The search bar filters across **all attributes** simultaneously. Pagination automatically resets to page 1 when a search query changes.
-
-### Chart Interaction
-
-- **Bar Chart:** Hover to highlight, click to select matching features on the map.
-- **Pie Chart:** Hover to explode the slice, click to select matching features.
-- Both charts trigger `zoomToSelected()` so the map viewport adjusts to show all selected features.
+## 🔧 Requirements / Gereksinimler
+- **QGIS:** ≥ 3.16
+- **Python:** 3.x
 
 ---
 
-## 🔧 Requirements
-
-| Requirement | Version |
-|---|---|
-| **QGIS** | ≥ 3.16 |
-| **Python** | 3.x (bundled with QGIS) |
-| **Dependencies** | None — uses only PyQt5 and PyQGIS (included in QGIS) |
-
----
-
-## 🐛 Known Issues & Troubleshooting
-
-| Issue | Solution |
-|---|---|
-| Plugin doesn't appear after install | Restart QGIS completely. Go to **Plugins → Manage and Install Plugins** and ensure **Layer Dashboard** is checked. |
-| `ValueError: source code string cannot contain null bytes` | Delete `__pycache__` folders inside the plugin directory and all subdirectories, then restart QGIS. |
-| Cannot uninstall from Plugin Manager | Close QGIS first, manually delete the `dynamicdashboard` folder from the plugins directory, then reopen QGIS. |
-| Min value always shows 0 | Fixed in v1.0.0 — zero values are now excluded from the minimum calculation. |
-
----
-
-## 📝 Changelog
-
-### v1.0.0 (2026-03-29)
-- ✅ Initial release with modular architecture
-- ✅ KPI summary cards with toggleable visibility
-- ✅ Interactive bar and pie charts with map selection
-- ✅ Paginated feature table with full-text search
-- ✅ Multi-language support (English / Türkçe)
-- ✅ Persistent language preference via QgsSettings
-- ✅ Zoom-to-extent on chart click
-- ✅ Min value calculation excludes zero values
-
----
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/my-feature`
-3. Commit your changes: `git commit -m "Add my feature"`
-4. Push to the branch: `git push origin feature/my-feature`
-5. Open a Pull Request
-
----
-
-## 📄 License
-
-This project is open source. See the repository for license details.
-
----
-
-## 📬 Contact
-
+## 📬 Contact / İletişim
 - **Repository:** [github.com/okansafak/qgisdashboardplugin](https://github.com/okansafak/qgisdashboardplugin)
 - **Issues:** [github.com/okansafak/qgisdashboardplugin/issues](https://github.com/okansafak/qgisdashboardplugin/issues)

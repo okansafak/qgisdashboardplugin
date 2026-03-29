@@ -1,14 +1,17 @@
 [general]
 name=Layer Dashboard
 qgisMinimumVersion=3.16
-description=Açık vector katmanlardan dinamik KPI ve grafik paneli oluşturur.
-about=Vektör katmanlarından KPI kartları, bar ve pasta grafiklerle özet rapor çıkarabilen interaktif bir dashboard eklentisi. Harita seçimi ve katman tıklamaları ile asenkron çalışır.
+description=Interactive dashboard panel with KPI cards, charts & paginated table for vector layers. / Vektör katmanları için KPI kartları, grafikler ve sayfalanmış tablo içeren interaktif dashboard paneli.
+about=Layer Dashboard transforms any loaded vector layer into a live analytics panel inside QGIS. Features include toggleable KPI summary cards (Total, Selected, Sum, Average, Min, Max), interactive bar and pie charts with click-to-select-on-map, a high-performance paginated feature table with full-text search, and built-in English/Turkish language support with persistent preference.
+    ---
+    Layer Dashboard, QGIS içindeki herhangi bir vektör katmanını canlı bir analitik panele dönüştürür. Açılıp kapanabilen KPI özet kartları (Toplam, Seçili, Toplam Değer, Ortalama, Min, Maks), haritada seçim yapabilen interaktif bar ve pasta grafikleri, tam metin aramalı yüksek performanslı sayfalanmış özellik tablosu ve kalıcı tercihli İngilizce/Türkçe dil desteği sunar.
 version=1.0.0
-author=Dev
+author=Okan Safak
 email=dev@example.com
+homepage=https://github.com/okansafak/qgisdashboardplugin
 repository=https://github.com/okansafak/qgisdashboardplugin
 tracker=https://github.com/okansafak/qgisdashboardplugin/issues
-tags=dashboard,vector,chart,statistics
+tags=dashboard,vector,chart,statistics,kpi,analytics,table,pagination
 category=Vector
 icon=icon.svg
 experimental=False
