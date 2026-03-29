@@ -518,7 +518,9 @@ class DashboardDock(QDockWidget):
         self._updating_selection = True
         layer.selectByIds(ids)
         self._updating_selection = False
-        if hasattr(self.iface.mapCanvas(), 'panToSelected'):
+        if hasattr(self.iface.mapCanvas(), 'zoomToSelected'):
+            self.iface.mapCanvas().zoomToSelected(layer)
+        elif hasattr(self.iface.mapCanvas(), 'panToSelected'):
             self.iface.mapCanvas().panToSelected(layer)
 
     def _clear_sel(self):
