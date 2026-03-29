@@ -23,7 +23,68 @@ from qgis.PyQt.QtWidgets import (
 from qgis.PyQt.QtCore import Qt, QVariant
 from qgis.PyQt.QtGui import QPainter, QColor, QBrush, QPen, QFont
 
-from qgis.core import QgsProject, QgsVectorLayer
+from qgis.core import QgsProject, QgsVectorLayer, QgsSettings
+
+LANG = {
+    "en": {
+        "sec_layer": "LAYER",
+        "lbl_stat_area": "Statistics Field",
+        "lbl_group_area": "Grouping Field",
+        "chk_only_sel": "Show selected features only",
+        "btn_refresh": "↻ Refresh",
+        "btn_clear": "✕ Clear Selection",
+        "cb_only_count": "(count only)",
+        "cb_select_fld": "(select field)",
+        "sec_kpi_opts": "SUMMARY TOGGLES",
+        "sec_kpi_cards": "SUMMARY CARDS",
+        "kpi_total_feat": "Total Features",
+        "kpi_selected": "Selected",
+        "kpi_sum": "Sum",
+        "kpi_avg": "Average",
+        "kpi_min": "Min",
+        "kpi_max": "Max",
+        "sec_charts": "DISTRIBUTION",
+        "tab_bar": "Bar Chart",
+        "tab_pie": "Pie Chart",
+        "lbl_chart_hint": "Click on bar / slice -> select on map",
+        "lbl_empty": "(empty)",
+        "sec_table": "FEATURE TABLE",
+        "ph_search": "Search...",
+        "tt_prev": "Previous Page",
+        "tt_next": "Next Page",
+        "lbl_page": "Page {cur} / {tot}",
+        "lbl_qty": "Size:"
+    },
+    "tr": {
+        "sec_layer": "KATMAN",
+        "lbl_stat_area": "İstatistik alanı",
+        "lbl_group_area": "Gruplama alanı",
+        "chk_only_sel": "Yalnızca seçili feature'ları göster",
+        "btn_refresh": "↻ Yenile",
+        "btn_clear": "✕ Seçimi temizle",
+        "cb_only_count": "(yalnızca sayım)",
+        "cb_select_fld": "(alan seçin)",
+        "sec_kpi_opts": "ÖZET KART SEÇİMLERİ",
+        "sec_kpi_cards": "ÖZET KARTLARI",
+        "kpi_total_feat": "Toplam Feature",
+        "kpi_selected": "Seçili",
+        "kpi_sum": "Toplam",
+        "kpi_avg": "Ortalama",
+        "kpi_min": "Min",
+        "kpi_max": "Maks",
+        "sec_charts": "DAĞILIM",
+        "tab_bar": "Bar Grafik",
+        "tab_pie": "Pasta Grafik",
+        "lbl_chart_hint": "Çubuğa / dilime tıkla → haritada seç",
+        "lbl_empty": "(boş)",
+        "sec_table": "ÖZELLİK TABLOSU",
+        "ph_search": "Ara…",
+        "tt_prev": "Önceki Sayfa",
+        "tt_next": "Sonraki Sayfa",
+        "lbl_page": "Sayfa {cur} / {tot}",
+        "lbl_qty": "Adet:"
+    }
+}
 
 try:
     from qgis.core import NULL
@@ -294,6 +355,12 @@ class DashboardDock(QDockWidget):
         self._filtered_features = []
         self._search_text = ""
         self._kpi_toggles = {}
+        
+        # Dil Seçimi
+        self._lang = QgsSettings().value("LayerDashboard/Locale", "tr")
+
+    def tr(self, key):
+        return LANG.get(self._lang, LANG["en"]).get(key, key)
 
         scroll_area = QScrollArea()
         scroll_area.setWidgetResizable(True)
@@ -318,20 +385,31 @@ class DashboardDock(QDockWidget):
     # ── Kontroller ────────────────────────────────────────────────────────────
     def _build_controls(self):
         m = self._main
-        m.addWidget(_sec("KATMAN"))
+        
+        top_row = QHBoxLayout()
+        top_row.addWidget(_sec(self.tr("sec_layer")))
+        top_row.addStretch()
+        self.lang_cb = QComboBox()
+        self.lang_cb.addItem("English", "en")
+        self.lang_cb.addItem("Türkçe", "tr")
+        self.lang_cb.setCurrentIndex(self.lang_cb.findData(self._lang) if self.lang_cb.findData(self._lang) >= 0 else 0)
+        self.lang_cb.currentIndexChanged.connect(self._on_lang_changed)
+        top_row.addWidget(self.lang_cb)
+        m.addLayout(top_row)
+        
         self.layer_cb = QComboBox()
         self.layer_cb.currentIndexChanged.connect(self._on_layer_changed)
         m.addWidget(self.layer_cb)
 
         row = QHBoxLayout(); row.setSpacing(6)
         left = QVBoxLayout()
-        left.addWidget(QLabel("İstatistik alanı"))
+        left.addWidget(QLabel(self.tr("lbl_stat_area")))
         self.stat_cb = QComboBox()
         self.stat_cb.currentIndexChanged.connect(self._refresh)
         left.addWidget(self.stat_cb)
 
         right = QVBoxLayout()
-        right.addWidget(QLabel("Gruplama alanı"))
+        right.addWidget(QLabel(self.tr("lbl_group_area")))
         self.group_cb = QComboBox()
         self.group_cb.currentIndexChanged.connect(self._refresh)
         right.addWidget(self.group_cb)
@@ -339,14 +417,14 @@ class DashboardDock(QDockWidget):
         row.addLayout(left); row.addLayout(right)
         m.addLayout(row)
 
-        self.sel_chk = QCheckBox("Yalnızca seçili feature'ları göster")
+        self.sel_chk = QCheckBox(self.tr("chk_only_sel"))
         self.sel_chk.stateChanged.connect(self._refresh)
         m.addWidget(self.sel_chk)
 
         btn_row = QHBoxLayout(); btn_row.setSpacing(4)
-        btn_r = QPushButton("↻  Yenile")
+        btn_r = QPushButton(self.tr("btn_refresh"))
         btn_r.clicked.connect(self._refresh)
-        btn_c = QPushButton("✕  Seçimi temizle")
+        btn_c = QPushButton(self.tr("btn_clear"))
         btn_c.clicked.connect(self._clear_sel)
         btn_row.addWidget(btn_r); btn_row.addWidget(btn_c)
         m.addLayout(btn_row)
@@ -354,12 +432,12 @@ class DashboardDock(QDockWidget):
 
     # ── KPI ───────────────────────────────────────────────────────────────────
     def _build_kpi(self):
-        self._main.addWidget(_sec("ÖZET KART SEÇİMLERİ"))
+        self._main.addWidget(_sec(self.tr("sec_kpi_opts")))
         toggles_layout = QGridLayout()
         toggles_layout.setSpacing(4)
-        kpi_names = ["Toplam Feature", "Seçili", "Toplam", "Ortalama", "Min", "Maks"]
+        kpi_names = ["kpi_total_feat", "kpi_selected", "kpi_sum", "kpi_avg", "kpi_min", "kpi_max"]
         for i, name in enumerate(kpi_names):
-            chk = QCheckBox(name)
+            chk = QCheckBox(self.tr(name))
             chk.setChecked(True)
             chk.stateChanged.connect(self._refresh_kpi_only)
             self._kpi_toggles[name] = chk
@@ -367,7 +445,7 @@ class DashboardDock(QDockWidget):
         w_tog = QWidget(); w_tog.setLayout(toggles_layout)
         self._main.addWidget(w_tog)
         
-        self._main.addWidget(_sec("ÖZET KARTLARI"))
+        self._main.addWidget(_sec(self.tr("sec_kpi_cards")))
         self._kpi_grid = QGridLayout()
         self._kpi_grid.setSpacing(6)
         w = QWidget(); w.setLayout(self._kpi_grid)
@@ -397,25 +475,25 @@ class DashboardDock(QDockWidget):
 
     # ── Grafikler ─────────────────────────────────────────────────────────────
     def _build_charts(self):
-        self._main.addWidget(_sec("DAĞILIM"))
+        self._main.addWidget(_sec(self.tr("sec_charts")))
         tabs = QTabWidget()
         tabs.setStyleSheet("QTabBar::tab{font-size:11px;padding:3px 10px;}")
         self._bar = BarChart()
         self._pie = PieChart()
-        tabs.addTab(self._bar, "Bar")
-        tabs.addTab(self._pie, "Pasta")
+        tabs.addTab(self._bar, self.tr("tab_bar"))
+        tabs.addTab(self._pie, self.tr("tab_pie"))
         self._main.addWidget(tabs)
 
-        hint = QLabel("Çubuğa / dilime tıkla → haritada seç")
+        hint = QLabel(self.tr("lbl_chart_hint"))
         hint.setStyleSheet("color:#bbb;font-size:10px;")
         self._main.addWidget(hint)
         self._main.addWidget(_divider())
 
     # ── Tablo ─────────────────────────────────────────────────────────────────
     def _build_table(self):
-        self._main.addWidget(_sec("ÖZELLİK TABLOSU"))
+        self._main.addWidget(_sec(self.tr("sec_table")))
         self._search = QLineEdit()
-        self._search.setPlaceholderText("Ara…")
+        self._search.setPlaceholderText(self.tr("ph_search"))
         self._search.textChanged.connect(self._on_search_changed)
         self._main.addWidget(self._search)
 
@@ -431,12 +509,12 @@ class DashboardDock(QDockWidget):
 
         pag_layout = QHBoxLayout()
         self.btn_prev = QPushButton("◄")
-        self.btn_prev.setToolTip("Önceki Sayfa")
+        self.btn_prev.setToolTip(self.tr("tt_prev"))
         self.btn_prev.clicked.connect(self._prev_page)
-        self.lbl_page = QLabel("Sayfa 1 / 1")
+        self.lbl_page = QLabel(self.tr("lbl_page").format(cur=1, tot=1))
         self.lbl_page.setAlignment(Qt.AlignCenter)
         self.btn_next = QPushButton("►")
-        self.btn_next.setToolTip("Sonraki Sayfa")
+        self.btn_next.setToolTip(self.tr("tt_next"))
         self.btn_next.clicked.connect(self._next_page)
         
         self.cb_page_size = QComboBox()
@@ -446,10 +524,41 @@ class DashboardDock(QDockWidget):
         pag_layout.addWidget(self.btn_prev)
         pag_layout.addWidget(self.lbl_page, 1)
         pag_layout.addWidget(self.btn_next)
-        pag_layout.addWidget(QLabel("Adet:"))
+        pag_layout.addWidget(QLabel(self.tr("lbl_qty")))
         pag_layout.addWidget(self.cb_page_size)
 
         self._main.addLayout(pag_layout)
+
+    def _on_lang_changed(self):
+        code = self.lang_cb.currentData()
+        if code and code != self._lang:
+            self._lang = code
+            QgsSettings().setValue("LayerDashboard/Locale", code)
+            
+            if self._layer:
+                try: self._layer.selectionChanged.disconnect(self._on_map_sel)
+                except: pass
+            
+            self._clear_layout(self._main)
+            self._layer = None
+            self._current_page = 0
+            
+            self._build_controls()
+            self._build_kpi()
+            self._build_charts()
+            self._build_table()
+            
+            self.populate_layers()
+            
+    def _clear_layout(self, layout):
+        while layout.count():
+            item = layout.takeAt(0)
+            if item.widget():
+                item.widget().deleteLater()
+            elif item.layout():
+                self._clear_layout(item.layout())
+                item.layout().deleteLater()
+
 
     # ── Katman yönetimi ───────────────────────────────────────────────────────
     def populate_layers(self):
@@ -582,7 +691,7 @@ class DashboardDock(QDockWidget):
             return []
         groups = defaultdict(float)
         for f in features:
-            key = str(f[group_f]) if _ok(f[group_f]) else "(boş)"
+            key = str(f[group_f]) if _ok(f[group_f]) else self.tr("lbl_empty")
             if stat_f:
                 v = f[stat_f]
                 groups[key] += float(v) if _ok(v) else 0.0
@@ -632,7 +741,7 @@ class DashboardDock(QDockWidget):
         end_idx = min(start_idx + self._page_size, total_feats)
         page_features = self._filtered_features[start_idx:end_idx]
 
-        self.lbl_page.setText(f"Sayfa {self._current_page + 1} / {total_pages}")
+        self.lbl_page.setText(self.tr("lbl_page").format(cur=self._current_page + 1, tot=total_pages))
         self.btn_prev.setEnabled(self._current_page > 0)
         self.btn_next.setEnabled(self._current_page < total_pages - 1)
 
