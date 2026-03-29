@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+    <!-- Arka plan -->
+    <rect width="64" height="64" rx="16" fill="#1b2a47"/>
+    <!-- Dashboard Başlık Çubuğu -->
+    <rect x="8" y="12" width="48" height="6" rx="2" fill="#ffffff" opacity="0.4"/>
+    <!-- Grafik Sütunları -->
+    <rect x="12" y="32" width="10" height="20" rx="3" fill="#e15759"/>
+    <rect x="27" y="24" width="10" height="28" rx="3" fill="#f28e2b"/>
+    <rect x="42" y="16" width="10" height="36" rx="3" fill="#59a14f"/>
+</svg>
